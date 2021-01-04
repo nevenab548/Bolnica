@@ -1,7 +1,8 @@
 export class Smena{
-    constructor(brojSmene)
+    constructor(brojSmene,broj)
     {
         this.brojSmene=brojSmene; //2 - nocna,1 - dnevna
+        this.broj=broj;
         this.lekar=null;
         this.boja="lightpink";
     }
@@ -22,7 +23,7 @@ export class Smena{
     {
         this.miniKont1=document.createElement("div");
         this.miniKont1.className="smena";
-        this.miniKont1.innerHTML="Smena";
+        this.miniKont1.innerHTML="Smena "+this.broj;
         this.miniKont1.style.backgroundColor=this.vratiBoju();
         host.appendChild(this.miniKont1);
     }
@@ -37,7 +38,10 @@ export class Smena{
         {
         this.brojSmene=brojSmene;
         this.dodajLekara(lekar);
-        this.miniKont1.innerHTML=this.lekar+" "+this.brojSmene;
+        if(brojSmene==1)
+        this.miniKont1.innerHTML=this.lekar+" - dnevna smena";
+        else
+        this.miniKont1.innerHTML=this.lekar+" - nocna smena";
         this.miniKont1.style.backgroundColor=this.vratiBoju();
         }
         }

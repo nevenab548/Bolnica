@@ -259,7 +259,6 @@ export class Bolnica{
         kont2.appendChild(elLabela1);
         let lekari=["Marko Dimitrijevic","Ana Lekic","Danica Mirkovic","Lazar Zivkovic","Damir Markovic","Tijana Vasic"];
         let opcija=null;
-        let labela=null;
         let select=document.createElement("select");
         select.className="selekt";
         lekari.forEach((lekar,ind)=>{
@@ -327,7 +326,7 @@ export class Bolnica{
         let smena;
         for(let i=0;i<this.uSmeni;i++)
         {
-            smena=new Smena(1);
+            smena=new Smena(1,i+1);
             this.dodajSmenu(smena);
             smena.crtajSmenu(kontSmene);
         }

@@ -50,7 +50,7 @@ export class Soba{
                 this.odelenje=odelenje;
                 this.primljeni++;
                 this.bojaSobe=odelenje;
-                this.miniKont1.innerHTML=this.brojSobe+" "+this.pacijenti+" , "+this.primljeni;
+                this.miniKont1.innerHTML="Soba broj:"+this.brojSobe+" \nPacijenti:\n"+this.pacijenti+", "+"Ukupno u sobi:\n"+this.primljeni;
                 this.miniKont1.style.backgroundColor=this.vratiBoju();
                     if(this.hitno==true)
                     {
