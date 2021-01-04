@@ -10,10 +10,9 @@ export class Soba{
         this.pacijenti=[];
         this.hitno=false;
     }
-    dodajPacijenta(ime,prezime)
+    dodajPacijenta(imeprezime)
     {
-        let p=ime+" "+prezime+"\n";
-        this.pacijenti.push(p);
+        this.pacijenti.push(imeprezime);
     }
     vratiBoju()
     {
@@ -30,8 +29,8 @@ export class Soba{
         this.miniKont1.style.backgroundColor=this.vratiBoju();
         host.appendChild(this.miniKont1);
     }
-    azurirajSobu(ime,prezime,odelenje,hitno){
-        if(ime=="" && prezime=="")
+    azurirajSobu(imeprezime,odelenje,hitno){
+        if(imeprezime=="")
         {
             this.pacijenti=[];
             this.primljeni=0;
@@ -46,7 +45,7 @@ export class Soba{
             alert("Kapacitet je popunjen!");
         else
             {
-                this.dodajPacijenta(ime,prezime);
+                this.dodajPacijenta(imeprezime);
                 this.odelenje=odelenje;
                 this.primljeni++;
                 this.bojaSobe=odelenje;

@@ -144,6 +144,7 @@ export class Bolnica{
             let prezime=this.kontejner.querySelector(".prezime").value;
             let odelenje=this.kontejner.querySelector(`input[name=${this.naziv}]:checked`).value;
             let hitno=this.kontejner.querySelector(`input[name="hitno"]`).checked;
+            let imeprezime=ime+" "+prezime;
             if(odelenje==null)
             alert("Molimo Vas izaberite odelenje na koje se prima pacijent!");
             let brSobe=parseInt(unos.value);
@@ -155,7 +156,7 @@ export class Bolnica{
             if(mogucaSoba)
             alert("Postoji nepopunjena soba! Soba je broj "+mogucaSoba.brojSobe+".");
             else
-            this.sobe[brSobe-1].azurirajSobu(ime,prezime,odelenje,hitno);
+            this.sobe[brSobe-1].azurirajSobu(imeprezime,odelenje,hitno);
             }
         }
         elLabela1=document.createElement("br");
