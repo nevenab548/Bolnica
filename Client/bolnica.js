@@ -12,6 +12,7 @@ export class Bolnica{
         this.smene=[];
         this.kontejner=null;
         this.kontejner2=null;
+        this.kontejner3=null;
     }
     dodajSmenu(lekar)
     {
@@ -40,6 +41,7 @@ export class Bolnica{
         host.appendChild(this.kontejner2);
         this.crtajFormuSmena(this.kontejner2);
         this.crtajSmene(this.kontejner2);
+            
     }
     crtajFormuSoba(host)
     {
