@@ -23,7 +23,7 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<List<Bolnica>> PreuzmiBolnice()
         {
-            return await Context.Bolnice.Include(p=> p.Sobe).Include(p=>p.Smene).ToListAsync();
+            return await Context.Bolnice.Include(p=> p.Sobe).Include(p=>p.Smene).Include(p=>p.Lekari).ToListAsync();
         }
         [Route("PreuzmiSobe")]
         [HttpGet]
@@ -36,6 +36,12 @@ namespace Server.Controllers
         public async Task<List<Smena>> PreuzmiSmene()
         {
             return await Context.Smene.ToListAsync();
+        }
+        [Route("PreuzmiLekare")]
+        [HttpGet]
+        public async Task<List<Lekar>> PreuzmiLekare()
+        {
+            return await Context.Lekari.ToListAsync();
         }
         [Route("UpisBolnice")]
         [HttpPost]
@@ -62,6 +68,15 @@ namespace Server.Controllers
             Context.Smene.Add(smena);
             await Context.SaveChangesAsync();
         }
+        [Route("UpisLekara/{idBolnice}")]
+        [HttpPost]
+        public async Task UpisLekara(int idBolnice,[FromBody] Lekar lekar)
+        {
+            var bolnica=await Context.Bolnice.FindAsync(idBolnice);
+            lekar.Bolnica=bolnica;
+            Context.Lekari.Add(lekar);
+            await Context.SaveChangesAsync();
+        }
         [Route("IzmeniBolnicu")]
         [HttpPut]
         public async Task IzmeniBolnicu([FromBody] Bolnica bolnica)
@@ -81,6 +96,13 @@ namespace Server.Controllers
         public async Task IzmeniSmenu([FromBody] Smena smena)
         {
             Context.Update<Smena>(smena);
+            await Context.SaveChangesAsync();
+        }
+        [Route("IzmeniLekara")]
+        [HttpPut]
+        public async Task IzmeniLekara([FromBody] Lekar lekar)
+        {
+            Context.Update<Lekar>(lekar);
             await Context.SaveChangesAsync();
         }
         [Route("IzbrisiBolnicu")]
@@ -105,6 +127,14 @@ namespace Server.Controllers
         {
            var smena = await Context.Smene.FindAsync(id);
             Context.Remove(smena);
+            await Context.SaveChangesAsync();
+        }
+        [Route("IzbrisiLekara")]
+        [HttpDelete]
+        public async Task IzbrisiLekara(int id)
+        {
+           var lekar = await Context.Lekari.FindAsync(id);
+            Context.Remove(lekar);
             await Context.SaveChangesAsync();
         }
     }

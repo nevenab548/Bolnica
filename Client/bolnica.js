@@ -1,5 +1,6 @@
 import {Soba} from "./soba.js"
 import {Smena} from "./smena.js"
+import {Lekar} from "./lekar.js"
 
 export class Bolnica{
     constructor(naziv,brojSoba,kapacitetSobe,uSmeni)
@@ -10,6 +11,7 @@ export class Bolnica{
         this.uSmeni=uSmeni;
         this.sobe=[];
         this.smene=[];
+        this.lekari=[];
         this.kontejner=null;
         this.kontejner2=null;
         this.kontejner3=null;
@@ -21,6 +23,10 @@ export class Bolnica{
     dodajSobu(soba)
     {
         this.sobe.push(soba);
+    }
+    dodajLekara(lekar)
+    {
+        this.lekari.push(lekar);
     }
     crtajBolnicu(host)
     {
@@ -247,7 +253,7 @@ export class Bolnica{
             let ime=this.kontejner2.querySelector(".ime").value;
             let prezime=this.kontejner2.querySelector(".prezime").value;
             let pom=document.createElement("option");
-            pom.text=ime+" "+prezime;
+            pom.text=lekar;
             select=this.kontejner2.querySelector(".selekt");
             select.appendChild(pom);
         }
@@ -264,7 +270,7 @@ export class Bolnica{
         let opcija=null;
         let select=document.createElement("select");
         select.className="selekt";
-        lekari.forEach((lekar,ind)=>{
+        lekari.forEach((lekar)=>{
             divO = document.createElement("div");
             divO.className="lekar";
             opcija=document.createElement("option");

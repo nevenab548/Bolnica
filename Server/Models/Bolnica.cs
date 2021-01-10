@@ -21,6 +21,7 @@ namespace Server.Models
         public int USmeni { get; set; }
         public virtual List<Soba> Sobe { get; set; }
         public virtual List<Smena> Smene { get;set; }
+        public virtual List<Lekar> Lekari{get;set;}
         
     }
 }
