@@ -7,12 +7,12 @@ export class Soba{
         this.primljeni=0;
         this.maxPrimljeni=maxPrimljeni;
         this.miniKont1=null;
-        this.pacijenti=[];
+        this.pacijenti="";
         this.hitno=false;
     }
     dodajPacijenta(imeprezime)
     {
-        this.pacijenti.push(imeprezime);
+        this.pacijenti+=" "+imeprezime;
     }
     vratiBoju()
     {
@@ -32,7 +32,7 @@ export class Soba{
     azurirajSobu(imeprezime,odelenje,hitno){
         if(imeprezime=="")
         {
-            this.pacijenti=[];
+            this.pacijenti="";
             this.primljeni=0;
             this.bojaSobe=null;
             this.miniKont1.innerHTML="Soba broj "+this.brojSobe+"\n slobodna";
@@ -49,7 +49,7 @@ export class Soba{
                 this.odelenje=odelenje;
                 this.primljeni++;
                 this.bojaSobe=odelenje;
-                this.miniKont1.innerHTML="Soba broj:"+this.brojSobe+" \nPacijenti:\n"+this.pacijenti+", "+"Ukupno u sobi:\n"+this.primljeni;
+                this.miniKont1.innerHTML="Soba broj:"+this.brojSobe+" \nPacijenti:\n"+this.pacijenti+"\n"+"Ukupno u sobi:\n"+this.primljeni;
                 this.miniKont1.style.backgroundColor=this.vratiBoju();
                     if(this.hitno==true)
                     {
