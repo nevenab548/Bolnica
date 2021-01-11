@@ -3,8 +3,9 @@ import {Smena} from "./smena.js"
 import {Lekar} from "./lekar.js"
 
 export class Bolnica{
-    constructor(naziv,brojSoba,kapacitetSobe,uSmeni)
+    constructor(id,naziv,brojSoba,kapacitetSobe,uSmeni)
     {
+        this.id=id;
         this.naziv=naziv;
         this.brojSoba=brojSoba;
         this.kapacitetSobe=kapacitetSobe;
@@ -37,6 +38,9 @@ export class Bolnica{
         const naziv=document.createElement("h1");
         naziv.innerHTML=this.naziv;
         host.appendChild(naziv);
+        const idb=document.createElement("h1");
+        idb.innerHTML="ID BOLNICE: "+this.id;
+        host.appendChild(idb);
         this.kontejner=document.createElement("div");
         this.kontejner.className="kontejner";
         host.appendChild(this.kontejner);
@@ -150,11 +154,11 @@ export class Bolnica{
         dugme.onclick=(ev)=>{
             let ime=this.kontejner.querySelector(".ime").value;
             let prezime=this.kontejner.querySelector(".prezime").value;
+            if(this.kontejner.querySelector(`input[name=${this.naziv}]:checked`)==null)
+            alert("Molimo Vas izaberite odelenje na koje se prima pacijent!");
             let odelenje=this.kontejner.querySelector(`input[name=${this.naziv}]:checked`).value;
             let hitno=this.kontejner.querySelector(`input[name="hitno"]`).checked;
             let imeprezime=ime+" "+prezime;
-            if(odelenje==null)
-            alert("Molimo Vas izaberite odelenje na koje se prima pacijent!");
             let brSobe=parseInt(unos.value);
             if(this.sobe[brSobe-1].hitno==true && hitno==false)
             alert("Ovo je soba intenzivne nege! Molimo Vas smestite pacijenta u drugu.");
@@ -164,7 +168,20 @@ export class Bolnica{
             if(mogucaSoba)
             alert("Postoji nepopunjena soba! Soba je broj "+mogucaSoba.brojSobe+".");
             else
-            this.sobe[brSobe-1].azurirajSobu(imeprezime,odelenje,hitno);
+            fetch("https://localhost:5001/Bolnica/UpisSobe/"+this.id,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    brojSobe:brSobe,
+                    odelenje:odelenje,
+                    pacijenti:imeprezime,
+                    maxPrimljeni:this.kapacitetSobe,
+                })
+            }).then(p=>{
+                    this.sobe[brSobe-1].azurirajSobu(imeprezime,odelenje,hitno);
+            });
             }
         }
         elLabela1=document.createElement("br");
@@ -192,6 +209,11 @@ export class Bolnica{
             alert("Soba je vec prazna!");
             else
             {
+                this.sobe.forEach(soba=>{
+                    if(soba.brojSobe==broj)
+                    fetch()
+                });
+                
             this.sobe[broj-1].azurirajSobu("","","",false);
             }   
         }

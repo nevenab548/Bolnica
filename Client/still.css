@@ -75,18 +75,21 @@ img{
     display:flex;
     flex-direction: column;
     background-color: white;
-    border:1px solid black;
+    color:red;
+    border:5px dotted black;
     border-radius:10px;
     justify-content:center;
     align-items: center;
     text-align:center;
     width:300px;
     padding:10px;
+    margin:20px;
 }
 button{
     width:150px;
 }
-body{
-display:flex;
-align-items: center;
+.bod{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
 }
