@@ -1,6 +1,7 @@
 export class Smena{
-    constructor(brojSmene,broj)
+    constructor(id,brojSmene,broj)
     {
+        this.id=id;
         this.brojSmene=brojSmene; //2 - nocna,1 - dnevna
         this.broj=broj;
         this.lekar=null;

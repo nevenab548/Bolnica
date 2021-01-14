@@ -51,6 +51,7 @@ export class Bolnica{
         host.appendChild(this.kontejner2);
         this.crtajFormuSmena(this.kontejner2);
         this.crtajSmene(this.kontejner2);
+        this.crtajLekare();
             
     }
     crtajFormuSoba(host)
@@ -168,21 +169,24 @@ export class Bolnica{
             if(mogucaSoba)
             alert("Postoji nepopunjena soba! Soba je broj "+mogucaSoba.brojSobe+".");
             else
-            fetch("https://localhost:5001/Bolnica/UpisSobe/"+this.id,{
-                method:"POST",
+            {
+            fetch("https://localhost:5001/Bolnica/IzmeniSobu",{
+                method:"PUT",
                 headers:{
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify({
+                    id:this.sobe[brSobe-1].id,
                     brojSobe:brSobe,
                     odelenje:odelenje,
-                    pacijenti:imeprezime,
+                    pacijenti:this.sobe[brSobe-1].pacijenti+","+imeprezime,
                     maxPrimljeni:this.kapacitetSobe,
                 })
             }).then(p=>{
                     this.sobe[brSobe-1].azurirajSobu(imeprezime,odelenje,hitno);
             });
             }
+        }
         }
         elLabela1=document.createElement("br");
         kont1.appendChild(elLabela1);
@@ -209,9 +213,23 @@ export class Bolnica{
             alert("Soba je vec prazna!");
             else
             {
-                this.sobe.forEach(soba=>{
-                    if(soba.brojSobe==broj)
-                    fetch()
+                let novesobe=this.sobe.filter(soba => soba.brojSobe==broj);
+                novesobe.forEach(soba=>{
+                    fetch("https://localhost:5001/Bolnica/IzmeniSobu/",{
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    id:soba.id,
+                    brojSobe:soba.brojSobe,
+                    odelenje:"",
+                    pacijenti:"",
+                    maxPrimljeni:this.kapacitetSobe,
+                    primljeni:0,
+                    hitno:false,
+                })
+                     });
                 });
                 
             this.sobe[broj-1].azurirajSobu("","","",false);
@@ -222,16 +240,21 @@ export class Bolnica{
     }
     crtajSobe(host)
     {
+        
         const kontSobe=document.createElement("div");
         kontSobe.className="kontSobe";
         host.appendChild(kontSobe);
-        let soba;
-        for(let i=0;i<this.brojSoba;i++)
-        {
-            soba=new Soba(i+1,"",this.kapacitetSobe);
-            this.dodajSobu(soba);
-            soba.crtajSobu(kontSobe);
-        }
+        fetch("https://localhost:5001/Bolnica/PreuzmiSobe/"+this.id).then(p=>{
+                p.json().then(data=>{
+                    data.forEach(soba=>{
+                        let soba1=new Soba(soba.id,soba.brojSobe,soba.odelenje,soba.maxPrimljeni);
+                        this.dodajSobu(soba1);
+                        soba1.crtajSobu(kontSobe);
+                        if(soba.pacijenti!=null)
+                        soba1.azurirajSobu(soba.pacijenti,soba.odelenje,soba.hitno);
+                    })
+                })
+            });
     }
     crtajFormuSmena(host)
     {
@@ -288,11 +311,11 @@ export class Bolnica{
         elLabela1=document.createElement("label");
         elLabela1.innerHTML="Izabrati lekara za smenu:";
         kont2.appendChild(elLabela1);
-        let lekari=["Marko Dimitrijevic","Ana Lekic","Danica Mirkovic","Lazar Zivkovic","Damir Markovic","Tijana Vasic"];
+        //let lekari=["Marko Dimitrijevic","Ana Lekic","Danica Mirkovic","Lazar Zivkovic","Damir Markovic","Tijana Vasic"];
         let opcija=null;
         let select=document.createElement("select");
         select.className="selekt";
-        lekari.forEach((lekar)=>{
+        this.lekari.forEach((lekar)=>{
             divO = document.createElement("div");
             divO.className="lekar";
             opcija=document.createElement("option");
@@ -354,12 +377,32 @@ export class Bolnica{
         const kontSmene=document.createElement("div");
         kontSmene.className="kontSmene";
         host.appendChild(kontSmene);
-        let smena;
-        for(let i=0;i<this.uSmeni;i++)
-        {
-            smena=new Smena(1,i+1);
-            this.dodajSmenu(smena);
-            smena.crtajSmenu(kontSmene);
-        }
+        fetch("https://localhost:5001/Bolnica/PreuzmiSmene/"+this.id).then(p=>{
+                p.json().then(data=>{
+                    data.forEach(smena=>{
+                        let smena1=new Smena(smena.id,smena.brojSmene,smena.broj);
+                        this.dodajSmenu(smena1);
+                        smena1.crtajSmenu(kontSmene);
+                        if(smena.lekar!=null)
+                        soba1.azurirajSmenu(smena.lekar,smena.brojSmene);
+                    });
+                });
+            });
+    }
+    crtajLekare()
+    {
+        let selekt=document.querySelector(".selekt");
+        let opcija=null;
+        fetch("https://localhost:5001/Bolnica/PreuzmiLekare/"+this.id).then(p=>{
+                p.json().then(data=>{
+                    data.forEach(lekar=>{
+                        let lekar1=new Lekar(lekar.id,lekar.ime,lekar.prezime);
+                        this.dodajLekara(lekar1);
+                        opcija=document.createElement("option");
+                        opcija.text=lekar.ime+" "+lekar.prezime;
+                        selekt.appendChild(opcija);
+                    });
+                });
+            });
     }
 }

@@ -1,4 +1,7 @@
 import {Bolnica} from "./bolnica.js"
+
+
+
 const main=document.createElement("div");
 main.className="bod";
 document.body.appendChild(main);
@@ -63,26 +66,47 @@ fetch("https://localhost:5001/Bolnica/UpisBolnice",{
         uSmeni:brsm,
     })
 });
-location.reload();
 }
 label = document.createElement("br");
 kontejner1.appendChild(label);
-label=document.createElement("label");
-label.innerHTML="Uneti ID bolnice: ";
-kontejner1.appendChild(label);
 input = document.createElement("input");
-input.className="id1";
+input.className="idBolnice";
 input.type="number";
 kontejner1.appendChild(input);
 label = document.createElement("br");
 kontejner1.appendChild(label);
-const izbrisi=document.createElement("button");
-izbrisi.innerHTML="Izbrisi bolnicu";
-kontejner1.appendChild(izbrisi);
-izbrisi.onclick=(ev)=>{
-    let id=document.querySelector(".id1").value;
-    fetch("https://localhost:5001/Bolnica/IzbrisiBolnicu?id="+id,{method:"DELETE"});
-    location.reload();
+const dodaj2=document.createElement("button");
+dodaj2.innerHTML="Dodaj ostalo";
+kontejner1.appendChild(dodaj2);
+dodaj2.onclick=(ev)=>{
+    let brs=kontejner1.querySelector(".brojSoba").value;
+    let kap=kontejner1.querySelector(".kapacitetSoba").value;
+    let id=kontejner1.querySelector(".idBolnice").value;
+    let brsm=kontejner1.querySelector(".brojSmena").value;
+for(let i=0;i<brs;i++)
+fetch("https://localhost:5001/Bolnica/UpisSobe/"+id,{
+    method:"POST",
+    headers:{
+        "Content-Type":"application/json"
+    },
+    body: JSON.stringify({
+        brojSobe:i+1,
+        odelenje:"",
+        maxPrimljeni:kap,
+    })
+});
+for(let i=0;i<brsm;i++)
+fetch("https://localhost:5001/Bolnica/UpisSmene/"+id,{
+    method:"POST",
+    headers:{
+        "Content-Type":"application/json"
+    },
+    body: JSON.stringify({
+        brojSmene:0,
+        broj:i+1,
+    })
+});
+location.reload();
 }
 const kontejner2 = document.createElement("div");
 kontejner2.className="main";
@@ -158,26 +182,53 @@ azuriraj.onclick=(ev)=>
             uSmeni:brsm,
         })
     });
-    location.reload();
+    window.location.reload();
 }
-
-
-
+const kontejner3=document.createElement("div");
+kontejner3.className="main";
+main.appendChild(kontejner3);
+label=document.createElement("h2");
+label.innerHTML="Brisanje bolnice";
+kontejner3.appendChild(label);
+label=document.createElement("label");
+label.innerHTML="Uneti ID bolnice: ";
+kontejner3.appendChild(label);
+input = document.createElement("input");
+input.className="id1";
+input.type="number";
+kontejner3.appendChild(input);
+label = document.createElement("br");
+kontejner3.appendChild(label);
+const izbrisi=document.createElement("button");
+izbrisi.innerHTML="Izbrisi bolnicu";
+kontejner3.appendChild(izbrisi);
+izbrisi.onclick=(ev)=>{
+    let id=document.querySelector(".id1").value;
+    fetch("https://localhost:5001/Bolnica/IzbrisiBolnicu?id="+id,{method:"DELETE"});
+}
+label = document.createElement("br");
+kontejner3.appendChild(label);
+label=document.createElement("h2");
+label.innerHTML="Crtanje bolnica";
+kontejner3.appendChild(label);
+const crtaj=document.createElement("button");
+crtaj.innerHTML="Crtaj bolnice";
+kontejner3.appendChild(crtaj);
+crtaj.onclick=(ev)=>
+{
 fetch("https://localhost:5001/Bolnica/PreuzmiBolnice").then(p=>{
     p.json().then(data=>{
         data.forEach(bolnica => {
            const bolnica1=new Bolnica(bolnica.id,bolnica.naziv,bolnica.brojSoba,bolnica.kapacitetSobe,bolnica.uSmeni);
+            
             bolnica1.crtajBolnicu(document.body);
-
-            bolnica.sobe.forEach(soba=>{
-                var s=bolnica1.sobe[soba.brojSobe-1];
-                if(soba.maxPrimljeni>=soba.primljeni+s.primljeni)
-                {
+            bolnica1.sobe.forEach(soba=>{
+                var s=soba;
                     s.azurirajSobu(soba.pacijenti,soba.odelenje,soba.hitno);
-                }
+                
             });
 
-            bolnica.smene.forEach(smena=>{
+            bolnica1.smene.forEach(smena=>{
                 var s=bolnica1.smene[smena.broj-1];
                     s.azurirajSmenu(smena.lekar,smena.brojSmene);
             });
@@ -188,3 +239,43 @@ fetch("https://localhost:5001/Bolnica/PreuzmiBolnice").then(p=>{
         });
     });
 });
+}
+label = document.createElement("br");
+kontejner3.appendChild(label);
+label=document.createElement("h2");
+label.innerHTML="Zaposljavanje lekara";
+kontejner3.appendChild(label);
+label = document.createElement("label");
+label.innerHTML="Ime lekara";
+kontejner3.appendChild(label);
+input = document.createElement("input");
+input.type="text";
+input.className="lekarIme";
+kontejner3.appendChild(input);
+label = document.createElement("label");
+label.innerHTML="Prezime lekara";
+kontejner3.appendChild(label);
+input = document.createElement("input");
+input.type="text";
+input.className="lekarPrezime";
+kontejner3.appendChild(input);
+label = document.createElement("br");
+kontejner3.appendChild(label);
+const zaposli=document.createElement("button");
+zaposli.innerHTML="Zaposli lekara";
+kontejner3.appendChild(zaposli);
+zaposli.onclick=(ev)=>{
+    let ime=kontejner3.querySelector(".lekarIme").value;
+    let prezime=kontejner3.querySelector(".lekarPrezime").value;
+    let id=kontejner1.querySelector(".idBolnice").value;
+    fetch("https://localhost:5001/Bolnica/UpisLekara/"+id,{
+    method:"POST",
+    headers:{
+        "Content-Type":"application/json"
+    },
+    body: JSON.stringify({
+        ime:ime,
+        prezime:prezime
+    })
+});
+}

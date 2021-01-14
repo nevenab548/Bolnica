@@ -2,6 +2,7 @@ body{
     background-image: url("texture.jpg");
     display:flex;
     flex-direction:column;
+    flex-wrap:wrap;
     row-gap: 50px;;
 }
 .kontejner,.kontejner2{
@@ -81,12 +82,13 @@ img{
     justify-content:center;
     align-items: center;
     text-align:center;
-    width:300px;
+    width:210px;
     padding:10px;
     margin:20px;
 }
 button{
     width:150px;
+    align-self:center;
 }
 .bod{
     display:flex;

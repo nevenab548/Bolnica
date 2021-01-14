@@ -1,6 +1,7 @@
 export class Soba{
-    constructor(brojSobe,odelenje,maxPrimljeni)
+    constructor(id,brojSobe,odelenje,maxPrimljeni)
     {
+        this.id=id;
         this.brojSobe=brojSobe;
         this.odelenje=odelenje;
         this.boja=this.odelenje.value;

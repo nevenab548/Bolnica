@@ -25,23 +25,23 @@ namespace Server.Controllers
         {
             return await Context.Bolnice.Include(p=> p.Sobe).Include(p=>p.Smene).Include(p=>p.Lekari).ToListAsync();
         }
-        [Route("PreuzmiSobe")]
+        [Route("PreuzmiSobe/{idBolnice}")]
         [HttpGet]
-        public async Task<List<Soba>> PreuzmiSobe()
+        public async Task<List<Soba>> PreuzmiSobe(int idBolnice)
         {
-            return await Context.Sobe.ToListAsync();
+            return await Context.Sobe.Where(soba => soba.Bolnica.ID==idBolnice).OrderBy(soba=>soba.BrojSobe).ToListAsync();
         }
-        [Route("PreuzmiSmene")]
+        [Route("PreuzmiSmene/{idBolnice}")]
         [HttpGet]
-        public async Task<List<Smena>> PreuzmiSmene()
+        public async Task<List<Smena>> PreuzmiSmene(int idBolnice)
         {
-            return await Context.Smene.ToListAsync();
+            return await Context.Smene.Where(smena=> smena.Bolnica.ID==idBolnice).OrderBy(smena=>smena.Broj).ToListAsync();
         }
-        [Route("PreuzmiLekare")]
+        [Route("PreuzmiLekare/{idBolnice}")]
         [HttpGet]
-        public async Task<List<Lekar>> PreuzmiLekare()
+        public async Task<List<Lekar>> PreuzmiLekare(int idBolnice)
         {
-            return await Context.Lekari.ToListAsync();
+            return await Context.Lekari.Where(lekar=> lekar.Bolnica.ID==idBolnice).ToListAsync();
         }
         [Route("UpisBolnice")]
         [HttpPost]
@@ -109,15 +109,23 @@ namespace Server.Controllers
         [HttpDelete]
         public async Task IzbrisiBolnicu(int id)
         {
+           var nizSoba=Context.Sobe.Where(s=>s.Bolnica.ID==id);
+            await nizSoba.ForEachAsync(s=>{
+                Context.Remove(s);
+            });
+            var nizSmena=Context.Smene.Where(s=>s.Bolnica.ID==id);
+            await nizSmena.ForEachAsync(s=>{
+                Context.Remove(s);
+            });
            var bolnica = await Context.Bolnice.FindAsync(id);
             Context.Remove(bolnica);
             await Context.SaveChangesAsync();
         }
-        [Route("IzbrisiSobu")]
+        [Route("IzbrisiSobu/{idSobe}")]
         [HttpDelete]
-        public async Task IzbrisiSobu(int id)
+        public async Task IzbrisiSobu(int idSobe)
         {
-           var soba = await Context.Sobe.FindAsync(id);
+           var soba = await Context.Sobe.FindAsync(idSobe);
             Context.Remove(soba);
             await Context.SaveChangesAsync();
         }
