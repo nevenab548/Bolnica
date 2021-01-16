@@ -45,10 +45,11 @@ namespace Server.Controllers
         }
         [Route("UpisBolnice")]
         [HttpPost]
-        public async Task UpisBolnice([FromBody] Bolnica bolnica)
+        public async Task<IActionResult> UpisBolnice([FromBody] Bolnica bolnica)
         {
             Context.Bolnice.Add(bolnica);
             await Context.SaveChangesAsync();
+            return Ok();
         }
         [Route("UpisSobe/{idBolnice}")]
         [HttpPost]
@@ -88,8 +89,10 @@ namespace Server.Controllers
         [HttpPut]
         public async Task IzmeniSobu([FromBody] Soba soba)
         {
+            
             Context.Update<Soba>(soba);
             await Context.SaveChangesAsync();
+            
         }
         [Route("IzmeniSmenu")]
         [HttpPut]

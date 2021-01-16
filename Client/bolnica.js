@@ -182,10 +182,6 @@ export class Bolnica{
                     pacijenti:this.sobe[brSobe-1].pacijenti+","+imeprezime,
                     maxPrimljeni:this.kapacitetSobe,
                 })
-            }).then(p=>{
-                if(p.ok){
-                    this.sobe[brSobe-1].azurirajSobu(imeprezime,odelenje,hitno);
-                }
             });
             }
         }
@@ -232,7 +228,8 @@ export class Bolnica{
                     hitno:false,
                 })
                      });
-                });
+                })
+                    
                 
             this.sobe[broj-1].azurirajSobu("","","",false);
             }   
