@@ -183,7 +183,9 @@ export class Bolnica{
                     maxPrimljeni:this.kapacitetSobe,
                 })
             }).then(p=>{
+                if(p.ok){
                     this.sobe[brSobe-1].azurirajSobu(imeprezime,odelenje,hitno);
+                }
             });
             }
         }
@@ -297,10 +299,17 @@ export class Bolnica{
         dugme.onclick=(ev)=>{
             let ime=this.kontejner2.querySelector(".ime").value;
             let prezime=this.kontejner2.querySelector(".prezime").value;
-            let pom=document.createElement("option");
-            pom.text=lekar;
-            select=this.kontejner2.querySelector(".selekt");
-            select.appendChild(pom);
+            fetch("https://localhost:5001/Bolnica/UpisLekara/"+this.id,{
+            method:"POST",
+             headers:{
+                "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                ime:ime,
+                prezime:prezime
+            })
+            });
+            location.reload();
         }
 
         elLabela1=document.createElement("br");
@@ -311,22 +320,13 @@ export class Bolnica{
         elLabela1=document.createElement("label");
         elLabela1.innerHTML="Izabrati lekara za smenu:";
         kont2.appendChild(elLabela1);
-        //let lekari=["Marko Dimitrijevic","Ana Lekic","Danica Mirkovic","Lazar Zivkovic","Damir Markovic","Tijana Vasic"];
+        divO = document.createElement("div");
+        divO.className="lekar";
+        kont2.appendChild(divO);
+        elLabela1=document.createElement("br");
+        kont2.appendChild(elLabela1);
         let opcija=null;
-        let select=document.createElement("select");
-        select.className="selekt";
-        this.lekari.forEach((lekar)=>{
-            divO = document.createElement("div");
-            divO.className="lekar";
-            opcija=document.createElement("option");
-            opcija.name=this.naziv;
-            opcija.text=lekar;
-    
-            select.appendChild(opcija);
-            divO.appendChild(select);
-            kont2.appendChild(divO);
-        })
-
+        
         divO=document.createElement("div");
         elLabela1=document.createElement("label");
         elLabela1.innerHTML="Broj smene:";
@@ -341,7 +341,6 @@ export class Bolnica{
             unos.appendChild(opcija);
         }
         kont2.appendChild(divO);
-
         elLabela1=document.createElement("br");
         kont2.appendChild(elLabela1);
         divO=document.createElement("div");
@@ -366,12 +365,28 @@ export class Bolnica{
         dugme2.innerHTML="Rasporediti";
         kont2.appendChild(dugme2);
         dugme2.onclick=(ev)=>{
-            let lekar=this.kontejner2.querySelector(".selekt").value;
+            let lekar=this.kontejner2.querySelector(".izabrani:checked").value;
             let brSmene=parseInt(unos.value);
             let mesto=parseInt(unos2.value);
-            this.smene[mesto-1].azurirajSmenu(lekar,brSmene);
-            }
+            let novesmene=this.smene.filter(smena=>smena.broj==mesto);
+            novesmene.forEach(smena => {
+                
+            fetch("https://localhost:5001/Bolnica/IzmeniSmenu",{
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    id:smena.id,
+                    brojSmene:brSmene,
+                    broj:mesto,
+                    lekar:lekar,
+                })
+            });
+        });
+        this.smene[mesto-1].azurirajSmenu(lekar,brSmene);
     }
+}
     crtajSmene(host)
     {
         const kontSmene=document.createElement("div");
@@ -384,23 +399,28 @@ export class Bolnica{
                         this.dodajSmenu(smena1);
                         smena1.crtajSmenu(kontSmene);
                         if(smena.lekar!=null)
-                        soba1.azurirajSmenu(smena.lekar,smena.brojSmene);
+                        smena1.azurirajSmenu(smena.lekar,smena.brojSmene);
                     });
                 });
             });
     }
     crtajLekare()
     {
-        let selekt=document.querySelector(".selekt");
-        let opcija=null;
+        let div=this.kontejner2.querySelector(".lekar");
         fetch("https://localhost:5001/Bolnica/PreuzmiLekare/"+this.id).then(p=>{
                 p.json().then(data=>{
                     data.forEach(lekar=>{
                         let lekar1=new Lekar(lekar.id,lekar.ime,lekar.prezime);
                         this.dodajLekara(lekar1);
-                        opcija=document.createElement("option");
-                        opcija.text=lekar.ime+" "+lekar.prezime;
-                        selekt.appendChild(opcija);
+                        let label=document.createElement("label");
+                        label.innerHTML=lekar.ime+" "+lekar.prezime;
+                        div.appendChild(label);
+                        let opcija=document.createElement("input");
+                        opcija.type="radio";
+                        opcija.name="radio";
+                        opcija.className="izabrani";
+                        opcija.value=label.innerHTML;
+                        div.appendChild(opcija);
                     });
                 });
             });

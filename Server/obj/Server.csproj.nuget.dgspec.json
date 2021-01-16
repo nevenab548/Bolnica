@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nevena\\Desktop\\projekat2\\Server\\Server.csproj": {}
+    "C:\\Users\\Nevena\\Desktop\\17026_projekat\\Server\\Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nevena\\Desktop\\projekat2\\Server\\Server.csproj": {
+    "C:\\Users\\Nevena\\Desktop\\17026_projekat\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nevena\\Desktop\\projekat2\\Server\\Server.csproj",
+        "projectUniqueName": "C:\\Users\\Nevena\\Desktop\\17026_projekat\\Server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "C:\\Users\\Nevena\\Desktop\\projekat2\\Server\\Server.csproj",
+        "projectPath": "C:\\Users\\Nevena\\Desktop\\17026_projekat\\Server\\Server.csproj",
         "packagesPath": "C:\\Users\\Nevena\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nevena\\Desktop\\projekat2\\Server\\obj\\",
+        "outputPath": "C:\\Users\\Nevena\\Desktop\\17026_projekat\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nevena\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -56,17 +56,17 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[5.0.2, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[5.0.2, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[5.0.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

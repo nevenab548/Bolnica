@@ -23,7 +23,7 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<List<Bolnica>> PreuzmiBolnice()
         {
-            return await Context.Bolnice.Include(p=> p.Sobe).Include(p=>p.Smene).Include(p=>p.Lekari).ToListAsync();
+            return await Context.Bolnice.Include(p=> p.Sobe).Include(p=>p.Smene).ToListAsync();
         }
         [Route("PreuzmiSobe/{idBolnice}")]
         [HttpGet]
@@ -116,6 +116,10 @@ namespace Server.Controllers
             var nizSmena=Context.Smene.Where(s=>s.Bolnica.ID==id);
             await nizSmena.ForEachAsync(s=>{
                 Context.Remove(s);
+            });
+            var nizLekara=Context.Lekari.Where(l=>l.Bolnica.ID==id);
+            await nizLekara.ForEachAsync(l=>{
+                Context.Remove(l);
             });
            var bolnica = await Context.Bolnice.FindAsync(id);
             Context.Remove(bolnica);

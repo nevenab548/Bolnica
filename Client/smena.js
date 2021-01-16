@@ -5,7 +5,7 @@ export class Smena{
         this.brojSmene=brojSmene; //2 - nocna,1 - dnevna
         this.broj=broj;
         this.lekar=null;
-        this.boja="lightpink";
+        this.boja=this.vratiBoju();
     }
     dodajLekara(imeprezime)
     {
@@ -29,7 +29,7 @@ export class Smena{
         host.appendChild(this.miniKont1);
     }
     azurirajSmenu(lekar,brojSmene){
-        if(lekar=="")
+        if(lekar==null)
         {
             brojSmene=0;
             this.miniKont1.innerHTML="";

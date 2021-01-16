@@ -233,49 +233,7 @@ fetch("https://localhost:5001/Bolnica/PreuzmiBolnice").then(p=>{
                     s.azurirajSmenu(smena.lekar,smena.brojSmene);
             });
 
-            bolnica1.lekari.forEach(lekar=>{
-                bolnica1.dodajLekara(lekar);
-            })
         });
     });
-});
-}
-label = document.createElement("br");
-kontejner3.appendChild(label);
-label=document.createElement("h2");
-label.innerHTML="Zaposljavanje lekara";
-kontejner3.appendChild(label);
-label = document.createElement("label");
-label.innerHTML="Ime lekara";
-kontejner3.appendChild(label);
-input = document.createElement("input");
-input.type="text";
-input.className="lekarIme";
-kontejner3.appendChild(input);
-label = document.createElement("label");
-label.innerHTML="Prezime lekara";
-kontejner3.appendChild(label);
-input = document.createElement("input");
-input.type="text";
-input.className="lekarPrezime";
-kontejner3.appendChild(input);
-label = document.createElement("br");
-kontejner3.appendChild(label);
-const zaposli=document.createElement("button");
-zaposli.innerHTML="Zaposli lekara";
-kontejner3.appendChild(zaposli);
-zaposli.onclick=(ev)=>{
-    let ime=kontejner3.querySelector(".lekarIme").value;
-    let prezime=kontejner3.querySelector(".lekarPrezime").value;
-    let id=kontejner1.querySelector(".idBolnice").value;
-    fetch("https://localhost:5001/Bolnica/UpisLekara/"+id,{
-    method:"POST",
-    headers:{
-        "Content-Type":"application/json"
-    },
-    body: JSON.stringify({
-        ime:ime,
-        prezime:prezime
-    })
 });
 }
