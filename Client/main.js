@@ -76,7 +76,7 @@ kontejner1.appendChild(input);
 label = document.createElement("br");
 kontejner1.appendChild(label);
 const dodaj2=document.createElement("button");
-dodaj2.innerHTML="Dodaj ostalo";
+dodaj2.innerHTML="Nacrtaj sobe i smene";
 kontejner1.appendChild(dodaj2);
 dodaj2.onclick=(ev)=>{
     let brs=kontejner1.querySelector(".brojSoba").value;
@@ -112,7 +112,7 @@ const kontejner2 = document.createElement("div");
 kontejner2.className="main";
 main.appendChild(kontejner2);
 label=document.createElement("h2");
-label.innerHTML="Azuriranje bolnice";
+label.innerHTML="Ažuriranje bolnice";
 kontejner2.appendChild(label);
 label=document.createElement("label");
 label.innerHTML="Uneti ID bolnice: ";
@@ -159,7 +159,7 @@ kontejner2.appendChild(input);
 label = document.createElement("br");
 kontejner2.appendChild(label);
 const azuriraj=document.createElement("button");
-azuriraj.innerHTML="Azuriraj bolnicu";
+azuriraj.innerHTML="Ažuriraj bolnicu";
 kontejner2.appendChild(azuriraj);
 azuriraj.onclick=(ev)=>
 {
@@ -200,11 +200,11 @@ kontejner3.appendChild(input);
 label = document.createElement("br");
 kontejner3.appendChild(label);
 const izbrisi=document.createElement("button");
-izbrisi.innerHTML="Izbrisi bolnicu";
+izbrisi.innerHTML="Izbriši bolnicu";
 kontejner3.appendChild(izbrisi);
 izbrisi.onclick=(ev)=>{
     let id=document.querySelector(".id1").value;
-    fetch("https://localhost:5001/Bolnica/IzbrisiBolnicu?id="+id,{method:"DELETE"});
+    fetch("https://localhost:5001/Bolnica/IzbrisiBolnicu?id="+id,{method:"DELETE"}).then(p=>{if(p.ok){location.reload();}});
 }
 label = document.createElement("br");
 kontejner3.appendChild(label);

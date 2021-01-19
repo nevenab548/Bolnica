@@ -181,7 +181,10 @@ export class Bolnica{
                     odelenje:odelenje,
                     pacijenti:this.sobe[brSobe-1].pacijenti+","+imeprezime,
                     maxPrimljeni:this.kapacitetSobe,
+                    hitno:hitno,
                 })
+            }).then(p=>{
+                this.sobe[brSobe-1].azurirajSobu(imeprezime,odelenje,hitno);
             });
             }
         }
@@ -208,7 +211,7 @@ export class Bolnica{
             if(!this.sobe[broj-1])
             alert("Soba ne postoji!");
             else if(this.sobe[broj-1].primljeni==0)
-            alert("Soba je vec prazna!");
+            alert("Soba je već prazna!");
             else
             {
                 let novesobe=this.sobe.filter(soba => soba.brojSobe==broj);
@@ -305,8 +308,14 @@ export class Bolnica{
                 ime:ime,
                 prezime:prezime
             })
+            }).then(p=>{
+                if(p.ok)
+                {
+                    location.reload();
+                }
+                else 
+                alert("Greška!");
             });
-            location.reload();
         }
 
         elLabela1=document.createElement("br");

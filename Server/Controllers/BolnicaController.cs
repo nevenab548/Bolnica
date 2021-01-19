@@ -45,11 +45,10 @@ namespace Server.Controllers
         }
         [Route("UpisBolnice")]
         [HttpPost]
-        public async Task<IActionResult> UpisBolnice([FromBody] Bolnica bolnica)
+        public async Task UpisBolnice([FromBody] Bolnica bolnica)
         {
             Context.Bolnice.Add(bolnica);
             await Context.SaveChangesAsync();
-            return Ok();
         }
         [Route("UpisSobe/{idBolnice}")]
         [HttpPost]
@@ -71,12 +70,24 @@ namespace Server.Controllers
         }
         [Route("UpisLekara/{idBolnice}")]
         [HttpPost]
-        public async Task UpisLekara(int idBolnice,[FromBody] Lekar lekar)
+        public async Task<IActionResult> UpisLekara(int idBolnice,[FromBody] Lekar lekar)
         {
+            
             var bolnica=await Context.Bolnice.FindAsync(idBolnice);
             lekar.Bolnica=bolnica;
+            if(Context.Lekari.Any(p=>p.Ime==lekar.Ime && p.Prezime==lekar.Prezime))
+            {
+                return StatusCode(406);
+            }
+            if(lekar.Ime==null || lekar.Prezime==null)
+            return StatusCode(406);
+            else
+            {
             Context.Lekari.Add(lekar);
             await Context.SaveChangesAsync();
+            return Ok();
+            }
+            
         }
         [Route("IzmeniBolnicu")]
         [HttpPut]
