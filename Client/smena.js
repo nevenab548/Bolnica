@@ -42,7 +42,7 @@ export class Smena{
         if(brojSmene==1)
         this.miniKont1.innerHTML=this.lekar+" - dnevna smena";
         else
-        this.miniKont1.innerHTML=this.lekar+" - nocna smena";
+        this.miniKont1.innerHTML=this.lekar+" - noćna smena";
         this.miniKont1.style.backgroundColor=this.vratiBoju();
         }
         }

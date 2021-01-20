@@ -11,8 +11,10 @@ namespace Server.Models
         [Column("ID")]
         public int ID { get; set; }
         [Column("Broj")]
+        [DataType("number")]
         public int Broj { get; set; }
         [Column("BrojSmene")]
+        [DataType("number")]
         public int BrojSmene { get; set; }
         [Column("Lekar")]
         [MaxLength(255)]

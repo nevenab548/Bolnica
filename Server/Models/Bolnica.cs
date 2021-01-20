@@ -14,10 +14,13 @@ namespace Server.Models
         [MaxLength(255)]
         public string Naziv { get; set; }
         [Column("BrojSoba")]
+        [DataType("number")]
         public int BrojSoba { get; set; }
         [Column("KapacitetSobe")]
+        [DataType("number")]
         public int KapacitetSobe { get; set; }
         [Column("Usmeni")]
+        [DataType("number")]
         public int USmeni { get; set; }
         public virtual List<Soba> Sobe { get; set; }
         public virtual List<Smena> Smene { get;set; }
