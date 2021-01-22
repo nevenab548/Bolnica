@@ -299,6 +299,8 @@ export class Bolnica{
         dugme.onclick=(ev)=>{
             let ime=this.kontejner2.querySelector(".ime").value;
             let prezime=this.kontejner2.querySelector(".prezime").value;
+            if(ime==null || prezime==null)
+            alert("Greška!");
             fetch("https://localhost:5001/Bolnica/UpisLekara/"+this.id,{
             method:"POST",
              headers:{
