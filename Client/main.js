@@ -95,7 +95,7 @@ fetch("https://localhost:5001/Bolnica/UpisSobe/"+id,{
         maxPrimljeni:kap,
     })
 });
-for(let i=0;i<brsm;i++)
+for(let j=0;j<brsm;j++)
 fetch("https://localhost:5001/Bolnica/UpisSmene/"+id,{
     method:"POST",
     headers:{
@@ -103,7 +103,7 @@ fetch("https://localhost:5001/Bolnica/UpisSmene/"+id,{
     },
     body: JSON.stringify({
         brojSmene:0,
-        broj:i+1,
+        broj:j+1,
     })
 });
 location.reload();
